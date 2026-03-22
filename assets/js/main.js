@@ -65,14 +65,16 @@
   // --- Active nav link (current page) ---
   function setActiveNav() {
     var path = window.location.pathname;
-    var page = path.split('/').pop() || 'index.html';
-    if (page === '') page = 'index.html';
-    var isRosterPage = page === 'roster.html' || path.indexOf('/roster/') >= 0 || path.indexOf('roster\\') >= 0;
+    var page = path.split('/').filter(Boolean).pop() || 'index';
+    if (page === '') page = 'index';
+    var pageBase = page.replace(/\.html$/, '');
+    var isRosterPage = pageBase === 'roster' || path.indexOf('/roster/') >= 0 || path.indexOf('roster\\') >= 0;
     document.querySelectorAll('.main-nav a[href]').forEach(function (a) {
       var href = a.getAttribute('href');
-      var linkPage = href.split('/').pop() || href.split('\\').pop() || 'index.html';
-      var isRosterLink = linkPage === 'roster.html';
-      if (linkPage === page || (isRosterPage && isRosterLink)) {
+      var linkPage = href.split('/').filter(Boolean).pop() || 'index';
+      var linkBase = linkPage.replace(/\.html$/, '');
+      var isRosterLink = linkBase === 'roster';
+      if (linkBase === pageBase || (isRosterPage && isRosterLink)) {
         a.classList.add('active');
       } else {
         a.classList.remove('active');
