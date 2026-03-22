@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Zentris | Esports</title>
+  <meta name="description" content="Team Zentris – a growing esports team fueled with passion. We compete, we grow, we build community. StarCraft II, Hearthstone, fighting games.">
+  <meta name="theme-color" content="#0b0b0f">
+  <link rel="canonical" href="https://www.teamzentris.org/">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="48x48" href="assets/img/favicon/favicon-48x48.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Team Zentris">
+  <meta property="og:title" content="Team Zentris | Esports">
+  <meta property="og:description" content="Team Zentris – a growing esports team fueled with passion. We compete, we grow, we build community.">
+  <meta property="og:url" content="https://www.teamzentris.org/">
+  <meta property="og:image" content="https://www.teamzentris.org/assets/teamzentris_banner.jpg">
+  <meta property="og:image:alt" content="Team Zentris – esports team">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Team Zentris | Esports">
+  <meta name="twitter:description" content="Team Zentris – a growing esports team fueled with passion. We compete, we grow, we build community.">
+  <meta name="twitter:image" content="https://www.teamzentris.org/assets/teamzentris_banner.jpg">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","@id":"https://www.teamzentris.org/#organization","name":"Team Zentris","url":"https://www.teamzentris.org","logo":"https://www.teamzentris.org/assets/img/team_zentris_logo.webp","description":"Esports organisation competing in StarCraft II, Hearthstone and fighting games.","sameAs":["https://twitch.tv/teamzentris","https://youtube.com/@teamzentris","https://facebook.com/teamzentris","https://instagram.com/teamzentris","https://x.com/teamzentris"]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","@id":"https://www.teamzentris.org/#website","url":"https://www.teamzentris.org","name":"Team Zentris","publisher":{"@id":"https://www.teamzentris.org/#organization"}}</script>
+</head>
+<body>
+  <svg aria-hidden="true" style="position:absolute;width:0;height:0;">
+    <defs>
+      <linearGradient id="eventCardIconGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#ff6a00"/>
+        <stop offset="100%" stop-color="#ff9a2f"/>
+      </linearGradient>
+    </defs>
+  </svg>
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo" aria-label="Team Zentris – Home">
+        <img src="assets/img/team_zentris_logo.webp" alt="Team Zentris logo" width="160" height="40">
+      </a>
+      <button type="button" class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="main-nav">☰</button>
+      <nav id="main-nav" class="main-nav" role="navigation">
+        <ul>
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="roster.html">Roster</a></li>
+          <li><a href="partners.html">Partners</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="https://www.letmicro.com/gallery/azx" target="_blank" rel="noopener">Store</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-home">
+    <!-- Hero -->
+    <section class="hero">
+      <video class="hero-video" autoplay muted loop playsinline aria-hidden="true">
+        <source src="https://assets.mixkit.co/videos/43524/43524-720.mp4" type="video/mp4">
+      </video>
+      <div class="container">
+        <h1 class="hero-logo">
+          <img src="assets/img/team_zentris_logo.webp" alt="Team Zentris" width="640" height="160">
+        </h1>
+        <p class="tagline">A growing esports team fueled with passion – we compete, we grow, we build community.</p>
+        <div class="cta-group">
+          <a href="contact.html" class="btn btn-primary">Join the movement</a>
+          <a href="roster.html" class="btn btn-secondary">See Roster</a>
+        </div>
+      </div>
+      <a href="#upcoming-events" class="hero-scroll-down" aria-label="Scroll to content">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      </a>
+    </section>
+
+    <!-- Upcoming events (cards, roster-style hover) -->
+    <section class="section next-event upcoming-events" id="upcoming-events">
+      <div class="container">
+        <div class="upcoming-events-header">
+          <h2 class="section-title">Upcoming events</h2>
+          <div class="upcoming-events-arrows" aria-hidden="true">
+            <button type="button" id="event-cards-prev" aria-label="Previous">‹</button>
+            <button type="button" id="event-cards-next" aria-label="Next">›</button>
+          </div>
+        </div>
+        <div class="event-cards-viewport" id="event-cards-viewport" aria-live="polite">
+          <div class="event-cards-track" id="event-cards-track">
+            <!-- Slides (2 cards each) injected by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Video -->
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">Featured Video</h2>
+        <div class="featured-video-grid">
+          <div class="featured-video-player">
+            <iframe src="https://www.youtube.com/embed/Gw4hVYNyW_g" title="Panda – WORTEX 2025 Signature Series" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+          <div class="featured-video-content">
+            <p class="featured-video-description">Our StarCraft II player Panda in the signature series of <strong>WORTEX 2025</strong>. In this interview he talks about how he was first introduced to StarCraft, what drew him to the game, and what his goals are both in competition and in the scene. A must-watch for anyone following the team’s StarCraft II journey.</p>
+            <p class="featured-video-more">
+              <a href="https://youtube.com/@teamzentris" class="btn btn-primary" target="_blank" rel="noopener">More video</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Shop: one wide card (event-card style) -->
+    <section class="section" style="background: var(--bg-panel);">
+      <div class="container">
+        <h2 class="section-title">Shop</h2>
+        <a href="https://www.letmicro.com/gallery/azx" target="_blank" rel="noopener" class="shop-card">
+          <div class="shop-card-bg">
+            <img src="assets/img/store-team-zentris.webp" alt="Team Zentris official merchandise">
+          </div>
+          <div class="shop-card-overlay"></div>
+          <div class="shop-card-body">
+            <p class="shop-card-title">Rep your team. Wear the gear.</p>
+            <p class="shop-card-desc">Official Team Zentris merch – jerseys, hoodies, and more. Look good, support the squad.</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Partners preview (same as partners.html) -->
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">Partners</h2>
+        <div class="partner-grid partner-grid-preview">
+          <article class="partner-card">
+            <div class="partner-card-bg"></div>
+            <div class="partner-card-logo-wrap">
+              <img src="assets/img/partnerek-azx-creative-grafika.webp" alt="AZX Creative" class="partner-card-logo">
+            </div>
+            <div class="partner-card-overlay"></div>
+            <div class="partner-card-body">
+              <p class="partner-card-name">AZXcreative</p>
+              <div class="partner-card-website">
+                <a href="https://azxcreative.com" target="_blank" rel="noopener" aria-label="Website">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="partner-card">
+            <div class="partner-card-bg"></div>
+            <div class="partner-card-logo-wrap">
+              <img src="assets/img/team_zentris_logo.webp" alt="Team Zentris" class="partner-card-logo">
+            </div>
+            <div class="partner-card-overlay"></div>
+            <div class="partner-card-body">
+              <p class="partner-card-name">Be A Partner</p>
+              <div class="partner-card-website">
+                <a href="contact.html" aria-label="Contact">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+        <p class="text-center mt-xl">
+          <a href="partners.html" class="btn btn-primary">All partners</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- Results teaser: count-up stats with orange gradient hover -->
+    <section class="section results-section" id="results-section" style="background: var(--bg-panel);">
+      <div class="container">
+        <h2 class="section-title">Results</h2>
+        <div class="results-teaser stats-grid">
+          <div class="stat-card" data-count="4">
+            <div class="icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
+            </div>
+            <span class="stat-card-value" aria-hidden="true">4</span>
+            <span class="stat-card-label">Offline tournaments</span>
+          </div>
+          <div class="stat-card" data-count="6">
+            <div class="icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            </div>
+            <span class="stat-card-value" aria-hidden="true">6</span>
+            <span class="stat-card-label">Top 8 finishes</span>
+          </div>
+          <div class="stat-card" data-count="4">
+            <div class="icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1v-1h14v1z"/></svg>
+            </div>
+            <span class="stat-card-value" aria-hidden="true">4</span>
+            <span class="stat-card-label">Podium finishes</span>
+          </div>
+        </div>
+        <p class="text-center mt-xl">
+          <a href="about.html#results" class="btn btn-primary">Detailed Results</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- Join us CTA -->
+    <section class="section">
+      <div class="container">
+        <div class="join-cta">
+          <h2 class="section-title">We want you!</h2>
+          <p>We value talent. Whether you’re a player, content creator, or want to be part of the team – we’re always looking for passionate people. Join us and grow with Team Zentris.</p>
+          <a href="contact.html" class="btn btn-primary">Apply</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Video Modal -->
+  <div class="modal-overlay" id="video-modal" aria-hidden="true" aria-modal="false" role="dialog" aria-label="Watch video">
+    <div class="modal-content">
+      <button type="button" class="modal-close" id="modal-close" aria-label="Close">×</button>
+      <div class="modal-video-placeholder">Video embed here</div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-nav">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="roster.html">Roster</a></li>
+            <li><a href="partners.html">Partners</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="https://www.letmicro.com/gallery/azx" target="_blank" rel="noopener">Store</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-logo">
+          <a href="index.html" class="footer-logo-link" aria-label="Team Zentris – Home">
+            <img src="assets/img/zentris_logo_box.webp" alt="Team Zentris" width="120" height="120">
+          </a>
+        </div>
+        <div class="footer-contact">
+          <div class="contact-socials">
+            <a href="https://facebook.com/teamzentris" target="_blank" rel="noopener" aria-label="Facebook"><img src="assets/icons/facebook.svg" alt="" width="22" height="22"></a>
+            <a href="https://twitch.tv/teamzentris" target="_blank" rel="noopener" aria-label="Twitch"><img src="assets/icons/twitch.svg" alt="" width="22" height="22"></a>
+            <a href="https://youtube.com/@teamzentris" target="_blank" rel="noopener" aria-label="YouTube"><img src="assets/icons/youtube.svg" alt="" width="22" height="22"></a>
+            <a href="https://instagram.com/teamzentris" target="_blank" rel="noopener" aria-label="Instagram"><img src="assets/icons/instagram.svg" alt="" width="22" height="22"></a>
+            <a href="https://x.com/teamzentris" target="_blank" rel="noopener" aria-label="X"><img src="assets/icons/x.svg" alt="" width="22" height="22"></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© Team Zentris. All rights reserved.</p>
+        <p class="footer-credit">Website by <a href="https://azxcreative.com" target="_blank" rel="noopener">AZXcreative</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
