@@ -549,9 +549,15 @@ ul { list-style: none; margin: 0; padding: 0; }
   padding: 0 var(--space-sm);
   box-sizing: border-box;
 }
-.event-cards-slide .event-card {
+.event-cards-slide .event-card,
+.event-cards-slide .event-card-external {
   width: 100%;
   max-width: 100%;
+}
+.event-cards-slide .event-card-external {
+  display: block;
+  text-decoration: none;
+  color: inherit;
 }
 @media (max-width: 768px) {
   .event-cards-viewport { padding-left: 16px; padding-right: 16px; }

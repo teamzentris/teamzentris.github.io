@@ -7,10 +7,11 @@
 
   // --- Upcoming events cards (image, status, name, game, participants, icon) ---
   var eventCards = [
-    { image: 'assets/img/upcoming-event-hungarian-pro-series-starcraft2-budapest.webp', status: 'Online', name: 'Hungarian Pro Series 7', game: 'StarCraft II', participants: [], icon: 'crown' },
-    { image: 'assets/img/upcoming-event-hungarian-pro-series-starcraft2-budapest.webp', status: 'Online', name: 'HPS: Sunday Cup #2', game: 'StarCraft II', participants: [], icon: 'trophy' },
-    { image: 'assets/img/wortex-esport-csapatok-versenye.webp', status: 'OFFLINE - HU, Budapest', name: 'WORTEX 2026', game: 'StarCraft II', participants: [], icon: 'crown' },
-    { image: 'assets/img/wortex-esport-csapatok-versenye.webp', status: 'OFFLINE - HU, Budapest', name: 'WORTEX 2026', game: 'Hearthstone', participants: [], icon: 'crown' }
+    { image: 'assets/img/upcoming-event-hungarian-pro-series-starcraft2-budapest.webp', status: 'Online', name: 'Hungarian Pro Series 7', game: 'StarCraft II', participants: [], icon: 'crown', link: 'https://hungarianproseries.com/' },
+    { image: 'assets/img/upcoming-event-comic-con-baltics-2026-street-fighter.webp', status: 'Offline', name: 'Comic Con Baltics 2026', game: 'Street Fighter 6', participants: [], icon: 'crown', link: 'https://ccbaltics.com/' },
+    { image: 'assets/img/upcoming-event-hungarian-pro-series-starcraft2-budapest.webp', status: 'Online', name: 'HPS: Sunday Cup #2', game: 'StarCraft II', participants: [], icon: 'trophy', link: 'https://hungarianproseries.com/' },
+    { image: 'assets/img/wortex-esport-csapatok-versenye.webp', status: 'OFFLINE - HU, Budapest', name: 'WORTEX 2026', game: 'StarCraft II', participants: [], icon: 'crown', link: 'https://wortexgg.hu/' },
+    { image: 'assets/img/wortex-esport-csapatok-versenye.webp', status: 'OFFLINE - HU, Budapest', name: 'WORTEX 2026', game: 'Hearthstone', participants: [], icon: 'crown', link: 'https://wortexgg.hu/' }
   ];
 
   var iconSvgs = {
@@ -100,7 +101,7 @@
     function cardHtml(card) {
       var icon = iconSvgs[card.icon] || iconSvgs.trophy;
       var imgSrc = card.image ? escapeHtml(card.image) : '';
-      return (
+      var article =
         '<article class="event-card">' +
           '<div class="event-card-bg">' +
             (imgSrc ? '<img src="' + imgSrc + '" alt="">' : '') +
@@ -112,8 +113,11 @@
             '<h3 class="event-card-title">' + escapeHtml(card.name) + '</h3>' +
             (card.game ? '<p class="event-card-game">' + escapeHtml(card.game) + '</p>' : '') +
           '</div>' +
-        '</article>'
-      );
+        '</article>';
+      if (card.link) {
+        return '<a href="' + escapeHtml(card.link) + '" class="event-card-external" target="_blank" rel="noopener noreferrer">' + article + '</a>';
+      }
+      return article;
     }
 
     track.innerHTML = eventCards.map(function (card) {
