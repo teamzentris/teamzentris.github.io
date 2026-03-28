@@ -5,13 +5,37 @@
 (function () {
   'use strict';
 
-  // --- Upcoming events cards (image, status, name, game, participants, icon) ---
+  // Roster lookup for event pop-up (real name, tag, photo, profile link)
+  var rosterMembers = {
+    panda: { name: 'Máté Susa', tag: 'Panda', image: 'assets/img/team-zentris-player-starcraft-2-panda.webp', href: '/roster/panda' },
+    mosten: { name: 'Ádám Bóna', tag: 'Mosten', image: 'assets/img/team-zentris-player-starcraft-2-mosten.webp', href: '/roster/mosten' },
+    bali: { name: 'Balázs Hajdu', tag: 'Bali', image: 'assets/img/team-zentris-player-starcraft-2-bali.webp', href: '/roster/bali' },
+    milkaa: { name: 'Gergely Ács', tag: 'Milkaa', image: 'assets/img/team-zentris-player-hearthstone-milkaa.webp', href: '/roster/milkaa' },
+    pinkyf: { name: 'Hampus Kreitz', tag: 'PinkyF', image: 'assets/img/team-zentris-player-fighet-games-pinkyf.webp', href: '/roster/pinkyf' },
+    aztex: { name: 'Gábor Hornyák', tag: 'AZTEX', image: 'assets/img/team-zentris-player-staff-aztex.webp', href: '/roster/aztex' }
+  };
+
+  function eventCardStatusLine(ev) {
+    if (ev.venue === 'online') return 'Online';
+    var cc = (ev.countryCode || '').toUpperCase();
+    if (ev.city && cc) return 'OFFLINE - ' + cc + ', ' + ev.city;
+    return 'Offline';
+  }
+
+  function eventTierIconId(tier) {
+    return tier === 'minor' ? 'trophy' : 'crown';
+  }
+
+  // All roster StarCraft II players (Milkaa included as SC2 & Hearthstone)
+  var sc2EventParticipants = ['panda', 'mosten', 'bali', 'milkaa'];
+
+  // venue: online | offline — offline: countryCode (lowercase, flagcdn), countryName, city
   var eventCards = [
-    { image: 'assets/img/upcoming-event-hungarian-pro-series-starcraft2-budapest.webp', status: 'Online', name: 'Hungarian Pro Series 7', game: 'StarCraft II', participants: [], icon: 'crown', link: 'https://hungarianproseries.com/' },
-    { image: 'assets/img/upcoming-event-comic-con-baltics-2026-street-fighter.webp', status: 'Offline', name: 'Comic Con Baltics 2026', game: 'Street Fighter 6', participants: [], icon: 'crown', link: 'https://ccbaltics.com/' },
-    { image: 'assets/img/upcoming-event-hungarian-pro-series-starcraft2-budapest.webp', status: 'Online', name: 'HPS: Sunday Cup #2', game: 'StarCraft II', participants: [], icon: 'trophy', link: 'https://hungarianproseries.com/' },
-    { image: 'assets/img/wortex-esport-csapatok-versenye.webp', status: 'OFFLINE - HU, Budapest', name: 'WORTEX 2026', game: 'StarCraft II', participants: [], icon: 'crown', link: 'https://wortexgg.hu/' },
-    { image: 'assets/img/wortex-esport-csapatok-versenye.webp', status: 'OFFLINE - HU, Budapest', name: 'WORTEX 2026', game: 'Hearthstone', participants: [], icon: 'crown', link: 'https://wortexgg.hu/' }
+    { image: 'assets/img/upcoming-event-hungarian-pro-series-starcraft2-budapest.webp', name: 'Hungarian Pro Series 7', game: 'StarCraft II', tier: 'major', venue: 'online', countryCode: '', countryName: '', city: '', link: 'https://hungarianproseries.com/', participants: sc2EventParticipants.slice() },
+    { image: 'assets/img/upcoming-event-comic-con-baltics-2026-street-fighter.webp', name: 'Comic Con Baltics 2026', game: 'Street Fighter 6', tier: 'major', venue: 'offline', countryCode: 'lt', countryName: 'Lithuania', city: 'Vilnius', link: 'https://ccbaltics.com/', participants: ['pinkyf'] },
+    { image: 'assets/img/upcoming-event-hungarian-pro-series-starcraft2-budapest.webp', name: 'HPS: Sunday Cup #2', game: 'StarCraft II', tier: 'minor', venue: 'online', countryCode: '', countryName: '', city: '', link: 'https://hungarianproseries.com/', participants: sc2EventParticipants.slice() },
+    { image: 'assets/img/wortex-esport-csapatok-versenye.webp', name: 'WORTEX 2026', game: 'StarCraft II', tier: 'major', venue: 'offline', countryCode: 'hu', countryName: 'Hungary', city: 'Budapest', link: 'https://wortexgg.hu/', participants: sc2EventParticipants.slice() },
+    { image: 'assets/img/wortex-esport-csapatok-versenye.webp', name: 'WORTEX 2026', game: 'Hearthstone', tier: 'major', venue: 'offline', countryCode: 'hu', countryName: 'Hungary', city: 'Budapest', link: 'https://wortexgg.hu/', participants: ['milkaa'] }
   ];
 
   var iconSvgs = {
@@ -89,6 +113,109 @@
     return div.innerHTML;
   }
 
+  var openEventDetailModal = function () {};
+
+  function initEventDetailModal() {
+    var modal = document.getElementById('event-detail-modal');
+    var closeBtn = document.getElementById('event-detail-modal-close');
+    var imgEl = document.getElementById('event-detail-image');
+    var titleEl = document.getElementById('event-detail-title');
+    var tierIconEl = modal ? modal.querySelector('.event-detail-tier-icon') : null;
+    var tierLabelEl = modal ? modal.querySelector('.event-detail-tier-label') : null;
+    var locationEl = document.getElementById('event-detail-location');
+    var gameEl = document.getElementById('event-detail-game');
+    var websiteEl = document.getElementById('event-detail-website');
+    var rosterEl = document.getElementById('event-detail-roster');
+    if (!modal || !closeBtn || !imgEl || !titleEl || !tierIconEl || !tierLabelEl || !locationEl || !gameEl || !websiteEl || !rosterEl) return;
+
+    function closeModal() {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      modal.setAttribute('aria-modal', 'false');
+      document.body.style.overflow = '';
+    }
+
+    openEventDetailModal = function (card) {
+      imgEl.src = card.image || '';
+      imgEl.alt = card.name || 'Event';
+      titleEl.textContent = card.name || '';
+      var tierIcon = eventTierIconId(card.tier);
+      tierIconEl.innerHTML = iconSvgs[tierIcon] || iconSvgs.trophy;
+      tierLabelEl.textContent = card.tier === 'minor' ? 'Minor tournament' : 'Major tournament';
+
+      if (card.venue === 'online') {
+        locationEl.className = 'event-detail-location event-detail-location--online';
+        locationEl.innerHTML = '<span class="event-detail-location-mode">Online</span>';
+      } else {
+        var code = (card.countryCode || '').toLowerCase();
+        var flagHtml = code
+          ? '<img class="event-detail-flag" src="https://flagcdn.com/w40/' + encodeURIComponent(code) + '.png" alt="" width="36" height="27" loading="lazy">'
+          : '';
+        locationEl.className = 'event-detail-location event-detail-location--offline';
+        locationEl.innerHTML =
+          '<span class="event-detail-location-mode">Offline</span>' +
+          flagHtml +
+          '<span class="event-detail-location-text"><strong>' +
+          escapeHtml(card.countryName || '') +
+          '</strong><span class="event-detail-location-sep">·</span><span>' +
+          escapeHtml(card.city || '') +
+          '</span></span>';
+      }
+
+      gameEl.textContent = card.game || '';
+
+      var websiteWrap = websiteEl.closest('.event-detail-website-wrap');
+      if (card.link) {
+        websiteEl.href = card.link;
+        if (websiteWrap) websiteWrap.style.display = '';
+      } else {
+        websiteEl.removeAttribute('href');
+        if (websiteWrap) websiteWrap.style.display = 'none';
+      }
+
+      rosterEl.innerHTML = '';
+      var ids = card.participants || [];
+      if (!ids.length) {
+        rosterEl.innerHTML = '<p class="event-detail-roster-empty">Line-up to be announced.</p>';
+      } else {
+        ids.forEach(function (rid) {
+          var p = rosterMembers[rid];
+          if (!p) return;
+          var a = document.createElement('a');
+          a.className = 'event-detail-player';
+          a.href = p.href;
+          a.innerHTML =
+            '<span class="event-detail-player-avatar"><img src="' +
+            escapeHtml(p.image) +
+            '" alt=""></span>' +
+            '<span class="event-detail-player-name">' +
+            escapeHtml(p.name) +
+            '</span>' +
+            '<span class="event-detail-player-tag">' +
+            escapeHtml(p.tag) +
+            '</span>';
+          rosterEl.appendChild(a);
+        });
+      }
+
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      modal.setAttribute('aria-modal', 'true');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+        closeModal();
+      }
+    });
+  }
+
   // --- Upcoming events: 1 card per slide, arrows move 1 card (2 cards visible) ---
   function renderEventCards() {
     var viewport = document.getElementById('event-cards-viewport');
@@ -98,9 +225,14 @@
     var numCards = eventCards.length;
     viewport.style.setProperty('--event-cards-count', String(numCards));
 
-    function cardHtml(card) {
-      var icon = iconSvgs[card.icon] || iconSvgs.trophy;
+    var carouselSuppressClick = false;
+    var DRAG_CLICK_SUPPRESS_PX = 12;
+
+    function cardHtml(card, index) {
+      var tierIcon = eventTierIconId(card.tier);
+      var icon = iconSvgs[tierIcon] || iconSvgs.trophy;
       var imgSrc = card.image ? escapeHtml(card.image) : '';
+      var statusLine = eventCardStatusLine(card);
       var article =
         '<article class="event-card">' +
           '<div class="event-card-bg">' +
@@ -109,20 +241,31 @@
           '<div class="event-card-overlay"></div>' +
           '<span class="event-card-icon">' + icon + '</span>' +
           '<div class="event-card-body">' +
-            '<span class="event-card-status">' + escapeHtml(card.status) + '</span>' +
+            '<span class="event-card-status">' + escapeHtml(statusLine) + '</span>' +
             '<h3 class="event-card-title">' + escapeHtml(card.name) + '</h3>' +
             (card.game ? '<p class="event-card-game">' + escapeHtml(card.game) + '</p>' : '') +
           '</div>' +
         '</article>';
-      if (card.link) {
-        return '<a href="' + escapeHtml(card.link) + '" class="event-card-external" target="_blank" rel="noopener noreferrer">' + article + '</a>';
-      }
-      return article;
+      var label = 'View details: ' + card.name;
+      return (
+        '<button type="button" class="event-card-trigger" data-event-index="' + index + '" aria-label="' + escapeHtml(label) + '">' +
+          article +
+        '</button>'
+      );
     }
 
-    track.innerHTML = eventCards.map(function (card) {
-      return '<div class="event-cards-slide">' + cardHtml(card) + '</div>';
+    track.innerHTML = eventCards.map(function (card, i) {
+      return '<div class="event-cards-slide">' + cardHtml(card, i) + '</div>';
     }).join('');
+
+    track.addEventListener('click', function (e) {
+      var trigger = e.target.closest('.event-card-trigger');
+      if (!trigger || carouselSuppressClick) return;
+      var idx = parseInt(trigger.getAttribute('data-event-index'), 10);
+      if (isNaN(idx) || !eventCards[idx]) return;
+      e.preventDefault();
+      openEventDetailModal(eventCards[idx]);
+    });
 
     var slideIndex = 0;
     function getCardsVisible() {
@@ -177,6 +320,10 @@
       track.style.transition = trackTransition || '';
       viewport.style.cursor = '';
       var delta = dragCurrentX - dragStartX;
+      if (Math.abs(delta) > DRAG_CLICK_SUPPRESS_PX) {
+        carouselSuppressClick = true;
+        setTimeout(function () { carouselSuppressClick = false; }, 320);
+      }
       var threshold = viewport.offsetWidth * 0.15;
       if (delta > threshold) goToSlide(slideIndex - 1);
       else if (delta < -threshold) goToSlide(slideIndex + 1);
@@ -371,6 +518,53 @@
     });
   }
 
+  // --- Stats cards: count-up when scrolled into view (index + about) ---
+  function initStatsCountUp() {
+    var cards = document.querySelectorAll('.stat-card[data-count]');
+    if (!cards.length) return;
+
+    function animateCard(card) {
+      var target = parseInt(card.getAttribute('data-count'), 10);
+      if (isNaN(target)) return;
+      var valueEl = card.querySelector('.stat-card-value');
+      if (!valueEl) return;
+      var duration = 1200;
+      var startTime = null;
+      function easeOutCubic(t) {
+        return 1 - Math.pow(1 - t, 3);
+      }
+      function step(ts) {
+        if (startTime === null) startTime = ts;
+        var p = Math.min((ts - startTime) / duration, 1);
+        var n = Math.round(target * easeOutCubic(p));
+        valueEl.textContent = String(n);
+        if (p < 1) requestAnimationFrame(step);
+        else valueEl.textContent = String(target);
+      }
+      valueEl.textContent = '0';
+      requestAnimationFrame(step);
+    }
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var card = entry.target;
+          if (card.getAttribute('data-counted') === '1') return;
+          card.setAttribute('data-counted', '1');
+          animateCard(card);
+        });
+      },
+      { threshold: 0.25 }
+    );
+
+    cards.forEach(function (card) {
+      var el = card.querySelector('.stat-card-value');
+      if (el) el.textContent = '0';
+      observer.observe(card);
+    });
+  }
+
   // --- Results table: sort by Placement or Date (asc/desc) ---
   function initResultsTableSort() {
     var table = document.querySelector('.results-table');
@@ -522,11 +716,13 @@
     initMenu();
     initLogoScroll();
     setActiveNav();
+    initEventDetailModal();
     renderEventCards();
     initVideoModal();
     initRosterFilters();
     initPlayerMore();
     initContactForm();
+    initStatsCountUp();
     initResultsTableSort();
     initResultsFilters();
   }
