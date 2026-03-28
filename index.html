@@ -223,6 +223,30 @@
     </div>
   </div>
 
+  <!-- Upcoming event detail -->
+  <div class="modal-overlay" id="event-detail-modal" aria-hidden="true" aria-modal="false" role="dialog" aria-labelledby="event-detail-title" aria-describedby="event-detail-desc">
+    <div class="modal-content event-detail-modal-content">
+      <button type="button" class="modal-close" id="event-detail-modal-close" aria-label="Close">×</button>
+      <div class="event-detail-header">
+        <img id="event-detail-image" src="" alt="">
+      </div>
+      <div class="event-detail-body" id="event-detail-body">
+        <h2 id="event-detail-title" class="event-detail-title"></h2>
+        <p id="event-detail-desc" class="event-detail-tier">
+          <span class="event-detail-tier-icon" aria-hidden="true"></span>
+          <span class="event-detail-tier-label"></span>
+        </p>
+        <div id="event-detail-location" class="event-detail-location"></div>
+        <p id="event-detail-game" class="event-detail-game"></p>
+        <p class="event-detail-website-wrap">
+          <a id="event-detail-website" class="btn btn-primary" href="#" target="_blank" rel="noopener noreferrer">Event website</a>
+        </p>
+        <h3 class="event-detail-roster-title">Our players</h3>
+        <div id="event-detail-roster" class="event-detail-roster"></div>
+      </div>
+    </div>
+  </div>
+
   <footer class="site-footer">
     <div class="container">
       <div class="footer-grid">
